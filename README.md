@@ -1,38 +1,36 @@
 Fraud Detection System
 A comprehensive financial transaction fraud detection system with real-time prediction capabilities.
-📋 Features
+Features
 
-⚡ Real-time fraud detection using Random Forest
-🔄 REST API for transaction processing
-💾 Data storage in PostgreSQL and MinIO (S3-compatible)
-📨 Message queueing with RabbitMQ
-🐳 Containerized environment with Docker
+Real-time fraud detection using Random Forest
+REST API for transaction processing
+Data storage in PostgreSQL and MinIO (S3-compatible)
+Message queueing with RabbitMQ
+Containerized environment with Docker
 
-🏗️ System Architecture
-FastAPI (API) → RabbitMQ (Queue) → Consumer (Worker)
-↓                                    ↓
+System Architecture
+CopyFastAPI (API) → RabbitMQ (Queue) → Consumer (Worker)
+    ↓                                    ↓
 PostgreSQL ↔ MinIO (S3) ↔ ML Model (Prediction)
 (Database)
-
-🚀 Setup Instructions
+Setup Instructions
 Prerequisites
 
-🐳 Docker and Docker Compose
-🐍 Python 3.8+
-🐘 PostgreSQL client
+Docker and Docker Compose
+Python 3.8+
+PostgreSQL client (optional)
 
 Getting Started
 
 Clone the repository:
-
 git clone https://github.com/yourusername/fraud-detection-system.git
 cd fraud-detection-system
 
+Install requirements:
 pip install -r requirements.txt
 
 Create a .env file:
-
-# API Configuration
+Copy# API Configuration
 API_KEY=your_secret_api_key_here
 API_HOST=0.0.0.0
 API_PORT=8000
@@ -59,33 +57,27 @@ RABBITMQ_QUEUE_TRANSACTIONS=transactions
 RABBITMQ_QUEUE_PROCESSED=processed_transactions
 
 Start the infrastructure:
-
-🐳 docker-compose up -d
+docker-compose up -d
 
 Initialize the database:
-
-🐍 python helpers/init_database.sql
+python helpers/init_database.sql
 
 Download and load the dataset:
-
-🐍 python helpers/download_dataset.py
-🐍 python helpers/load_data_to_db.py
+python helpers/download_dataset.py
+python helpers/load_data_to_db.py
 
 Train the fraud detection model:
-
-🐍 python machine_learning/train_forest.py
+python machine_learning/train_forest.py
 
 Upload the model to MinIO:
-
-🐍 python scripts/upload_model_to_s3.py
+python scripts/upload_model_to_s3.py
 
 Start the API:
-
-🐍 uvicorn api.main:app --reload
+uvicorn api.main:app --reload
 
 Access the API documentation at http://localhost:8000/docs
 
-🧠 ML Model
+ML Model
 The system uses a Random Forest classifier to detect fraudulent transactions:
 
 Trains on 300,000+ transactions with PCA-transformed features (V1-V28)
@@ -93,7 +85,7 @@ Uses SMOTE to address class imbalance (fraud transactions are only 0.2%)
 Achieves 99.95% accuracy with 83.7% precision and 91.1% recall
 Key predictive features: V14, V10, V12, and V4
 
-📝 Making API Requests
+Making API Requests
 To submit a transaction for fraud analysis:
 curl -X 'POST' \
   'http://localhost:8000/transactions/' \
@@ -132,14 +124,13 @@ curl -X 'POST' \
   "v28": -0.053208,
   "amount": 149.62
 }'
+Tech Stack
 
-🔧 Tech Stack
-
-🐍 Python: Core programming language
-🚀 FastAPI: API framework
-🐳 Docker: Containerization
-🐘 PostgreSQL: Transaction database
-📦 MinIO: S3-compatible storage
-🐰 RabbitMQ: Message queue
-🌲 RandomForest: ML algorithm
-📊 Scikit-learn: ML library
+Python: Core programming language
+FastAPI: API framework
+Docker: Containerization
+PostgreSQL: Transaction database
+MinIO: S3-compatible storage
+RabbitMQ: Message queue
+RandomForest: ML algorithm
+Scikit-learn: ML library
