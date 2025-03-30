@@ -181,5 +181,5 @@ Contributions are welcome! Feel free to open issues and submit pull requests.
 ---
 
 ## 📧 Contact
-For any inquiries or support, please contact [your email or GitHub username].
+For any inquiries or support, please contact (https://github.com/Aris-Geo).
 
