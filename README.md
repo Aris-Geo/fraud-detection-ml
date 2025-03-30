@@ -1,36 +1,47 @@
-Fraud Detection System
-A comprehensive financial transaction fraud detection system with real-time prediction capabilities.
-Features
+# Fraud Detection System
 
-Real-time fraud detection using Random Forest
-REST API for transaction processing
-Data storage in PostgreSQL and MinIO (S3-compatible)
-Message queueing with RabbitMQ
-Containerized environment with Docker
+![Version](https://img.shields.io/badge/version-1.0-blue)
+![Python](https://img.shields.io/badge/python-3.8%2B-blue)
+![Docker](https://img.shields.io/badge/docker-supported-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-yellow)
 
-System Architecture
-CopyFastAPI (API) → RabbitMQ (Queue) → Consumer (Worker)
+🚀 A comprehensive financial transaction fraud detection system with real-time prediction capabilities.
+
+## 🔗 Homepage
+[GitHub Repository](https://github.com/Aris-Geo/fraud-detection-ml)
+
+## ✅ Features
+- ⚡ **Real-time fraud detection** using Random Forest
+- 🌐 **REST API** for transaction processing
+- 🛢 **Data storage** in PostgreSQL and MinIO (S3-compatible)
+- 📩 **Message queueing** with RabbitMQ
+- 🐳 **Containerized environment** with Docker
+
+## 🏗 System Architecture
+```plaintext
+FastAPI (API) → RabbitMQ (Queue) → Consumer (Worker)
     ↓                                    ↓
 PostgreSQL ↔ MinIO (S3) ↔ ML Model (Prediction)
-(Database)
-Setup Instructions
-Prerequisites
+```
 
-Docker and Docker Compose
-Python 3.8+
-PostgreSQL client (optional)
+## 📋 Prerequisites
+- 🐍 Python 3.8+
+- 🐳 Docker and Docker Compose
+- 🛢 PostgreSQL client (optional)
 
-Getting Started
-
-Clone the repository:
+## 🛠 Install & Setup
+### 1️⃣ Clone the repository
+```sh
 git clone https://github.com/yourusername/fraud-detection-system.git
 cd fraud-detection-system
-
-Install requirements:
+```
+### 2️⃣ Install dependencies
+```sh
 pip install -r requirements.txt
-
-Create a .env file:
-Copy# API Configuration
+```
+### 3️⃣ Create a `.env` file
+```ini
+# API Configuration
 API_KEY=your_secret_api_key_here
 API_HOST=0.0.0.0
 API_PORT=8000
@@ -55,38 +66,57 @@ RABBITMQ_USER=guest
 RABBITMQ_PASSWORD=guest
 RABBITMQ_QUEUE_TRANSACTIONS=transactions
 RABBITMQ_QUEUE_PROCESSED=processed_transactions
+```
 
-Start the infrastructure:
+### 4️⃣ Start the infrastructure
+```sh
 docker-compose up -d
+```
 
-Initialize the database:
+### 5️⃣ Initialize the database
+```sh
 python helpers/init_database.sql
+```
 
-Download and load the dataset:
+### 6️⃣ Download and load the dataset
+```sh
 python helpers/download_dataset.py
 python helpers/load_data_to_db.py
+```
 
-Train the fraud detection model:
+### 7️⃣ Train the fraud detection model
+```sh
 python machine_learning/train_forest.py
+```
 
-Upload the model to MinIO:
+### 8️⃣ Upload the model to MinIO
+```sh
 python scripts/upload_model_to_s3.py
+```
 
-Start the API:
+### 9️⃣ Start the API
+```sh
 uvicorn api.main:app --reload
+```
 
-Access the API documentation at http://localhost:8000/docs
+📌 **API documentation:** [http://localhost:8000/docs](http://localhost:8000/docs)
 
-ML Model
-The system uses a Random Forest classifier to detect fraudulent transactions:
+---
 
-Trains on 300,000+ transactions with PCA-transformed features (V1-V28)
-Uses SMOTE to address class imbalance (fraud transactions are only 0.2%)
-Achieves 99.95% accuracy with 83.7% precision and 91.1% recall
-Key predictive features: V14, V10, V12, and V4
+## 🧠 ML Model Details
+- 📊 Trained on **300,000+ transactions** with PCA-transformed features (V1-V28)
+- 🎯 **SMOTE** is used to handle class imbalance (fraud transactions ~0.2%)
+- 📈 **Model Performance:**
+  - ✅ **Accuracy:** 99.95%
+  - 🎯 **Precision:** 83.7%
+  - 📢 **Recall:** 91.1%
+- 🔑 **Key predictive features:** V14, V10, V12, and V4
 
-Making API Requests
-To submit a transaction for fraud analysis:
+---
+
+## 📡 Making API Requests
+### 🔍 Submit a transaction for fraud analysis
+```sh
 curl -X 'POST' \
   'http://localhost:8000/transactions/' \
   -H 'accept: application/json' \
@@ -124,13 +154,32 @@ curl -X 'POST' \
   "v28": -0.053208,
   "amount": 149.62
 }'
-Tech Stack
+```
 
-Python: Core programming language
-FastAPI: API framework
-Docker: Containerization
-PostgreSQL: Transaction database
-MinIO: S3-compatible storage
-RabbitMQ: Message queue
-RandomForest: ML algorithm
-Scikit-learn: ML library
+---
+
+## 🛠 Tech Stack
+- 🚀 **Python**: Core programming language
+- 🌐 **FastAPI**: API framework
+- 🐳 **Docker**: Containerization
+- 🛢 **PostgreSQL**: Transaction database
+- ☁ **MinIO**: S3-compatible storage
+- 📩 **RabbitMQ**: Message queue
+- 🌲 **Random Forest**: ML algorithm
+- 📚 **Scikit-learn**: ML library
+
+---
+
+## 📜 License
+This project is licensed under the **MIT License**.
+
+---
+
+## 🤝 Contributing
+Contributions are welcome! Feel free to open issues and submit pull requests.
+
+---
+
+## 📧 Contact
+For any inquiries or support, please contact [your email or GitHub username].
+
