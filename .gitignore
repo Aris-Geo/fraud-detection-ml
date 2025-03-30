@@ -1,2 +1,9 @@
 *.csv
 .env
+.pkl
+__pycache__/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.pdf

@@ -18,7 +18,9 @@ class RabbitMQClient:
             parameters = pika.ConnectionParameters(
                 host=settings.RABBITMQ_HOST,
                 port=int(settings.RABBITMQ_PORT),
-                credentials=credentials
+                credentials=credentials,
+                heartbeat=30,
+                blocked_connection_timeout=300
             )
             
             self.connection = pika.BlockingConnection(parameters)
@@ -32,17 +34,33 @@ class RabbitMQClient:
             print(f"Error connecting to RabbitMQ: {e}")
     
     def publish_transaction(self, transaction_data):
-        if self.connection is None or self.connection.is_closed:
-            self.connect()
-        
-        self.channel.basic_publish(
-            exchange='',
-            routing_key=settings.RABBITMQ_QUEUE_TRANSACTIONS,
-            body=json.dumps(transaction_data),
-            properties=pika.BasicProperties(
-                delivery_mode=2,
+        try:
+            if self.connection is None or self.connection.is_closed:
+                self.connect()
+                
+            if self.connection is None or self.channel is None:
+                print("RabbitMQ connection unavailable, skipping message publish")
+                return False
+            
+            self.channel.basic_publish(
+                exchange='',
+                routing_key=settings.RABBITMQ_QUEUE_TRANSACTIONS,
+                body=json.dumps(transaction_data),
+                properties=pika.BasicProperties(
+                    delivery_mode=2, 
+                )
             )
-        )
+            return True
+        except Exception as e:
+            print(f"Error publishing to RabbitMQ: {e}")
+            try:
+                if self.connection and self.connection.is_open:
+                    self.connection.close()
+            except:
+                pass
+            self.connection = None
+            self.channel = None
+            return False
     
     def close(self):
         if self.connection and self.connection.is_open:

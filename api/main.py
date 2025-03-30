@@ -1,9 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.routers import transactions, analytics
+from api.routers import transactions
 from api.models.transaction import MLModel
 from api.dependencies.database import engine, Base, SessionLocal
 from api.core.config import settings
+from api.services.ml_model import model_service
 
 Base.metadata.create_all(bind=engine)
 
@@ -65,3 +66,12 @@ async def health_check():
         "status": "healthy",
         "version": "1.0.0"
     }
+
+@app.on_event("startup")
+async def startup_event():
+    init_ml_model()
+    
+    if model_service.model is None:
+        print("WARNING: ML model could not be loaded! Predictions will fail!")
+    else:
+        print("ML model loaded successfully and ready for predictions")
